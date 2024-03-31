@@ -7,45 +7,64 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dummy" />
-
+    <!-- Label for Provider -->
     <TextView
         android:id="@+id/textLabelProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/provider" />
+        android:text="@string/provider"
+        android:layout_centerHorizontal="true" />
 
+    <!-- Value for Provider -->
     <TextView
-        android:id="@+id/textLatitude"
+        android:id="@+id/textProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dummy" />
+        android:layout_below="@id/textLabelProvider"
+        android:layout_centerHorizontal="true"
+        android:text="@string/dummy"
+        android:layout_marginTop="8dp"/>
 
+    <!-- Label for Latitude -->
     <TextView
         android:id="@+id/textLabelLatitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/latitude" />
+        android:layout_below="@id/textProvider"
+        android:layout_centerHorizontal="true"
+        android:text="@string/latitude"
+        android:layout_marginTop="16dp"/>
 
+    <!-- Value for Latitude -->
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textLatitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dummy" />
+        android:layout_below="@id/textLabelLatitude"
+        android:layout_centerHorizontal="true"
+        android:text="@string/dummy"
+        android:layout_marginTop="8dp"/>
 
+    <!-- Assuming 'textTo' is not needed or is a placeholder for something specific, it's excluded for clarity -->
+
+    <!-- Distance Value -->
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/longitude" />
+        android:layout_below="@id/textLatitude"
+        android:layout_centerHorizontal="true"
+        android:text="@string/dummy"
+        android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/textView8"
+    <!-- Button for New Location -->
+    <Button
+        android:id="@+id/buttonNewLoc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dummy" />
+        android:layout_below="@id/textDistance"
+        android:layout_centerHorizontal="true"
+        android:text="@string/newButton"
+        android:layout_marginTop="16dp"/>
+
 </RelativeLayout>
