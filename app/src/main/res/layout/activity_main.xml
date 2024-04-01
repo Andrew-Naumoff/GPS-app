@@ -7,64 +7,150 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Label for Provider -->
+    <TextView
+        android:id="@+id/textProvider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textLabelProvider"
+        android:layout_alignBaseline="@id/textLabelProvider"
+        android:layout_marginStart="8dp"
+        android:text="@string/dummy" />
+
     <TextView
         android:id="@+id/textLabelProvider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/provider"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
 
     <!-- Value for Provider -->
-    <TextView
-        android:id="@+id/textProvider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textLabelProvider"
-        android:layout_centerHorizontal="true"
-        android:text="@string/dummy"
-        android:layout_marginTop="8dp"/>
 
     <!-- Label for Latitude -->
-    <TextView
-        android:id="@+id/textLabelLatitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textProvider"
-        android:layout_centerHorizontal="true"
-        android:text="@string/latitude"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Value for Latitude -->
     <TextView
         android:id="@+id/textLatitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textLabelLatitude"
-        android:layout_centerHorizontal="true"
-        android:text="@string/dummy"
-        android:layout_marginTop="8dp"/>
+        android:layout_toEndOf="@id/textLabelLatitude"
+        android:layout_alignBaseline="@id/textLabelLatitude"
+        android:layout_marginStart="8dp"
+        android:text="@string/dummy" />
 
-    <!-- Assuming 'textTo' is not needed or is a placeholder for something specific, it's excluded for clarity -->
+    <TextView
+        android:id="@+id/textLabelLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/latitude"
+        android:layout_below="@id/textLabelProvider"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- Value for Latitude -->
+
+    <!-- Label for Longitude -->
+    <TextView
+        android:id="@+id/textLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textLabelLongitude"
+        android:layout_alignBaseline="@id/textLabelLongitude"
+        android:layout_marginStart="8dp"
+        android:text="@string/dummy" />
+
+    <TextView
+        android:id="@+id/textLabelLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textLabelLatitude"
+        android:layout_alignParentStart="true"
+        android:text="@string/longitude"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
+    <!-- Value for Longitude -->
+
+    <!-- Distance Label -->
+    <TextView
+        android:id="@+id/textTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dummy" />
 
     <!-- Distance Value -->
     <TextView
         android:id="@+id/textDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textLatitude"
+        android:layout_below="@id/textNewLocLabel"
         android:layout_centerHorizontal="true"
         android:text="@string/dummy"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="8dp" />
 
-    <!-- Button for New Location -->
-    <Button
-        android:id="@+id/buttonNewLoc"
+    <!-- Button for New Location Label -->
+    <TextView
+        android:id="@+id/textNewLocLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textLongitude"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/dummy" />
+
+    <!-- Distance Value -->
+    <TextView
+        android:id="@+id/textDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textNewLocLabel"
+        android:layout_centerHorizontal="true"
+        android:text="@string/dummy"
+        android:layout_marginTop="8dp" />
+
+    <!-- New Location Label (Directly above EditText for Postal Address) -->
+    <TextView
+        android:id="@+id/textNewSpot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textDistance"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/newloc" />
+
+    <!-- EditText for Postal Address -->
+    <EditText
+        android:id="@+id/editLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textNewSpot"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPostalAddress"
+        android:minHeight="48dp"
+        android:background="@color/pink" />
+
+
+    <Button
+        android:id="@+id/buttonNewLoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editLocation"
+        android:layout_alignParentEnd="true"
         android:text="@string/newButton"
-        android:layout_marginTop="16dp"/>
+        android:background="#BDBDBD"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"/>
+
+
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
+
 
 </RelativeLayout>
+
