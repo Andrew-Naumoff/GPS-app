@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/textProvider"
@@ -97,17 +97,10 @@
         android:layout_below="@id/textLongitude"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="@string/dummy" />
-
-    <!-- Distance Value -->
-    <TextView
-        android:id="@+id/textDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textNewLocLabel"
-        android:layout_centerHorizontal="true"
         android:text="@string/dummy"
-        android:layout_marginTop="8dp" />
+        android:textSize="12sp" />
+
+
 
     <!-- New Location Label (Directly above EditText for Postal Address) -->
     <TextView
@@ -117,7 +110,9 @@
         android:layout_below="@id/textDistance"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="@string/newloc" />
+        android:text="@string/newloc"
+        android:textSize="15sp"
+        android:textStyle="italic" />
 
     <!-- EditText for Postal Address -->
     <EditText
@@ -130,7 +125,9 @@
         android:ems="10"
         android:inputType="textPostalAddress"
         android:minHeight="48dp"
-        android:background="@color/pink" />
+        android:background="@color/pink"
+        android:hint="@string/edit_location_hint"
+        />
 
 
     <Button
@@ -139,17 +136,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/editLocation"
         android:layout_alignParentEnd="true"
-        android:text="@string/newButton"
-        android:background="#BDBDBD"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="80dp"/>
-
-
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:layout_marginEnd="80dp"
+        android:background="#BDBDBD"
+        android:text="@string/newButton"
+        android:textColor="#0D47A1" />
 
 
 </RelativeLayout>

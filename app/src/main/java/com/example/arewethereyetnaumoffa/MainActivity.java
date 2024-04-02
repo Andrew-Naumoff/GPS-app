@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        settings = getSharedPreferences( "my.app.packagename_preferences", Context.MODE_PRIVATE);
+        settings = getSharedPreferences( "arewethereyetnaumoffa.app.packagename_preferences", Context.MODE_PRIVATE);
         to = settings.getString(TO, "1225 Engineering");
         toLatitude = Double.parseDouble(settings.getString(TOLAT, "42.724303")); toLongitude = Double.parseDouble(settings.getString(TOLONG, "-84.480507"));
         latitude = 42.731138;
