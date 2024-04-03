@@ -7,4 +7,13 @@
     <string name="provider">Provider: </string>
     <string name="newButton">New</string>
     <string name="edit_location_hint">Enter Address</string>
+    <string name="eb2250">2250 Engineering</string>
+    <string name="sparty">Sparty</string>
+    <string name="home">Home</string>
+    <string name="exception">Failed to communicate with geolocation services</string>
+    <string name="couldnotfind">Unable to locate address</string>
+    <string name="driving">Driving</string>
+    <string name="walking">Walking</string>
+    <string name="bicycling">Bicycling</string>
+    <string name="show_route">Show Route</string>
 </resources>
