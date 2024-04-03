@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    tools:ignore="ExtraText">
 
     <TextView
         android:id="@+id/textProvider"
@@ -72,12 +73,6 @@
 
     <!-- Value for Longitude -->
 
-    <!-- Distance Label -->
-    <TextView
-        android:id="@+id/textTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dummy" />
 
     <!-- Distance Value -->
     <TextView
@@ -123,11 +118,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:inputType="textPostalAddress"
-        android:minHeight="48dp"
-        android:background="@color/pink"
         android:hint="@string/edit_location_hint"
-        />
+        android:minHeight="48dp"
+        android:textColorHint="#000000"
+        android:backgroundTint="#FF0000"
+        android:autofillHints="" />
 
 
     <Button
@@ -138,9 +133,46 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="80dp"
-        android:background="#BDBDBD"
+        android:background="@android:color/darker_gray"
         android:text="@string/newButton"
-        android:textColor="#0D47A1" />
+        android:textColor="#@android:color/black" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupTransportMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioButtonDriving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/driving"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioButtonWalking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/walking" />
+
+        <RadioButton
+            android:id="@+id/radioButtonBicycling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bicycling" />
+    </RadioGroup>
+    <Button
+        android:id="@+id/buttonShowRoute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/radioGroupTransportMode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/show_route" />
 
 
 </RelativeLayout>
