@@ -4,6 +4,7 @@ package com.example.arewethereyetnaumoffa;
 import static com.example.arewethereyetnaumoffa.R.id;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,6 +36,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -62,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView viewLongitude;
     private TextView viewDistance;
 
+    private FusedLocationProviderClient fusedLocationClient;
+
     private TextView viewLocation;
-
-
 
 
     @Override
@@ -80,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         settings = getSharedPreferences("arewethereyetnaumoffa.app.packagename_preferences", Context.MODE_PRIVATE);
         to = settings.getString(TO, "1225 Engineering");
         toLatitude = Double.parseDouble(settings.getString(TOLAT, "42.724303"));
@@ -88,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         longitude = -84.487508;
         valid = true;
         EditText editLocation = (EditText) findViewById(id.editLocation);
-
 
         textTo = findViewById(id.textNewLocLabel); // Replace 'yourTextViewIdForTextTo' with the actual ID from your layout
         viewLatitude = findViewById(id.textLatitude); // Replace 'yourTextViewIdForLatitude' with the actual ID from your layout
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         newLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onNew( v);
+                onNew(v);
             }
         });
 
@@ -187,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onProviderDisabled(String s) {
+            registerListeners();
         }
 
         @Override
@@ -210,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         criteria.setSpeedRequired(false);
         criteria.setCostAllowed(false);
         String bestAvailable = locationManager.getBestProvider(criteria, true);
-        if(bestAvailable != null) {
+        if (bestAvailable != null) {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) !=
                     PackageManager.PERMISSION_GRANTED
@@ -221,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             }
             locationManager.requestLocationUpdates(bestAvailable, 500, 1,
                     activeListener);
-            TextView viewProvider = (TextView)findViewById(id.textProvider);
+            TextView viewProvider = (TextView) findViewById(id.textProvider);
             viewProvider.setText(bestAvailable);
             Location location = locationManager.getLastKnownLocation(bestAvailable);
             onLocation(location);
@@ -231,8 +236,9 @@ public class MainActivity extends AppCompatActivity {
     private void unregisterListeners() {
         locationManager.removeUpdates(activeListener);
     }
+
     private void onLocation(Location location) {
-        if(location == null) {
+        if (location == null) {
             return;
         }
         latitude = location.getLatitude();
@@ -251,7 +257,6 @@ public class MainActivity extends AppCompatActivity {
         to = address;
         toLatitude = lat;
         toLongitude = lon;
-        setUI();
 
         // Save to SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
@@ -260,6 +265,8 @@ public class MainActivity extends AppCompatActivity {
         editor.putFloat("latitude", (float) lat);
         editor.putFloat("longitude", (float) lon);
         editor.apply();
+
+        setUI();
     }
 
 
@@ -270,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -277,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
             newTo("Sparty", 42.731138, -84.487508);
             return true;
         } else if (id == R.id.itemHome) {
+            newTo("Home", 42.756700, -84.480321);
             return true;
 
         } else if (id == R.id.item2250) {
@@ -288,13 +297,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onNew(View view) {
-        EditText location = (EditText)findViewById(R.id.editLocation);
+        EditText location = (EditText) findViewById(R.id.editLocation);
         final String address = location.getText().toString().trim();
         newAddress(address);
     }
 
     private void newAddress(final String address) {
-        if(address.equals("")) {
+        if (address.equals("")) {
             // Don't do anything if the address is blank
             return;
         }
@@ -316,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
         List<Address> locations;
         try {
             locations = geocoder.getFromLocationName(address, 1);
-        } catch(IOException ex) {
+        } catch (IOException ex) {
 // Failed due to I/O exception
             locations = null;
             exception = true;
@@ -335,16 +344,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void newLocation(String address, boolean exception, List<Address>
             locations) {
-        if(exception) {
+        if (exception) {
             Toast.makeText(MainActivity.this, R.string.exception,
                     Toast.LENGTH_SHORT).show();
         } else {
-            if(locations == null || locations.size() == 0) {
+            if (locations == null || locations.size() == 0) {
                 Toast.makeText(this, R.string.couldnotfind,
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            EditText location = (EditText)findViewById(R.id.editLocation);
+            EditText location = (EditText) findViewById(R.id.editLocation);
             location.setText("");
 // We have a valid new location
             Address a = locations.get(0);
@@ -353,32 +362,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showRoute() {
-        RadioGroup radioGroup = findViewById(R.id.radioGroupTransportMode);
-        int selectedModeId = radioGroup.getCheckedRadioButtonId();
-        String mode = "driving"; // Default mode
-
-        if (selectedModeId == R.id.radioButtonDriving) {
-            mode = "driving";
-        } else if (selectedModeId == R.id.radioButtonWalking) {
-            mode = "walking";
-        } else if (selectedModeId == R.id.radioButtonBicycling) {
-            mode = "bicycling";
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            // Got last known location. In some rare situations, this can be null.
+            if (location != null) {
+                // Use the current location as the origin
+                double currentLatitude = location.getLatitude();
+                double currentLongitude = location.getLongitude();
 
-        Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1"
-                + "&origin=" + latitude + "," + longitude
-                + "&destination=" + toLatitude + "," + toLongitude
-                + "&travelmode=" + mode);
+                RadioGroup radioGroup = findViewById(R.id.radioGroupTransportMode);
+                int selectedModeId = radioGroup.getCheckedRadioButtonId();
+                String mode = "driving"; // Default mode
 
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
+                if (selectedModeId == R.id.radioButtonDriving) {
+                    mode = "driving";
+                } else if (selectedModeId == R.id.radioButtonWalking) {
+                    mode = "walking";
+                } else if (selectedModeId == R.id.radioButtonBicycling) {
+                    mode = "bicycling";
+                }
 
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
-        } else {
-            Toast.makeText(MainActivity.this, "Google Maps is not installed.", Toast.LENGTH_SHORT).show();
-        }
+                Uri gmmIntentUri = Uri.parse("https://www.google.com/maps/dir/?api=1"
+                        + "&origin=" + currentLatitude + "," + currentLongitude
+                        + "&destination=" + toLatitude + "," + toLongitude
+                        + "&travelmode=" + mode);
+
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.android.chrome");
+
+                try {
+                    startActivity(mapIntent);
+                } catch (ActivityNotFoundException e) {
+                    // Chrome is not installed; fallback to the default web browser
+                    mapIntent.setPackage(null); // Clear the package so it can be handled by any browser
+                    startActivity(mapIntent);
+                    Toast.makeText(this, "Chrome not installed, opening in default browser.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(MainActivity.this, "Current location is not available.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
-
 
 }
