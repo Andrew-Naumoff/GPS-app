@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Are We There Yet naumoffa"
+rootProject.name = "GPS-app"
 include(":app")
